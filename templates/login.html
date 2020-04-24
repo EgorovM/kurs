@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="UTF-8">
+        <title>
+            {% block title %}
+                Hello
+            {% endblock %}
+        </title>
+        <script src="https://kit.fontawesome.com/ba974a8480.js" crossorigin="anonymous"></script>
+
+        <style>
+            body{
+                font-family: Arial;
+                background-image: url(https://verol.net/images/virtuemart/product/3DW00044.jpg);
+                background-size: 100%;
+                background-attachment: fixed;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h2 align="center"> Вход </h2>
+        <hr>
+        <h4 align="center"  <p> <font color="red" </font> {{ error }}</p> </h4>
+        {% if login == None and pass == None %}
+            <form method="POST" action="" align="center">
+                {% csrf_token %}
+                <input name="login" type="text" placeholder="Логин"/>
+                <br>
+                <input name="password" type="password" placeholder="Пароль"/>
+                <br>
+                <input name="ok" type="submit" value="Вход">
+            </form>
+        {% endif %}
+    </body>
+</html>

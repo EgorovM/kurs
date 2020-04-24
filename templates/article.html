@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="UTF-8">
+        <title>
+            {% block title %}
+                Hello
+            {% endblock %}
+        </title>
+        <script src="https://kit.fontawesome.com/ba974a8480.js" crossorigin="anonymous"></script>
+
+        <style>
+            body{
+                font-family: Arial;
+                background-image: url(https://verol.net/images/virtuemart/product/3DW00044.jpg);
+                background-size: 100%;
+                background-attachment: fixed;
+                width: 80%;
+                margin: 0 auto;
+            }
+            header{
+                display: flex;
+                justify-content: flex-end;
+            }
+            header a{
+                margin-right: 10px;
+            }
+            header a{
+                text-decoration: none;
+                color: #000000;
+            }
+            header hr{
+                visibility: hidden;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <a href="/"><p> База данных </p></a>
+
+            {% if request.session.name %}
+                {% if request.session.type == 'admin' %}
+                    <a href="/admin"><p> Панель </p></a>
+                {% endif %}
+                <hr>
+                <a href="#"><p> {{request.session.name}}</p></a>
+                <a href="/exit"><p><font color="red" </font> Выход </p></a>
+            {% else %}
+                <hr>
+                <a href="/login"><p><p><font color="green" </font> Войти </p></a>
+                <a href="/register"> <p><p><font color="blue" </font> Регистрация </p></a>
+            {% endif %}
+        </header>
+        <font color="black" </font>
+        {% if found == True %}
+            <h2 align="center"> {{ article.Name }}</h2>
+            <hr>
+            <p><strong> Автор: </strong>
+            {% for authorID in article.Authors %}
+                {% for author in people %}
+                    {% if author.ID == authorID %}
+                        <font style="padding: 3px 8px; margin-right: 10px; background: #EDEDED;">
+                            <a href = "/author/{{author.ID}}">{{author.FullName}}</a>
+                        </font>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}</p>
+            <p> <strong> Выложено: </strong> {{article.Date}}  </p>
+            <p> <strong> Аннотация: </strong> </p>
+            <p> {{ article.Description }} </p>
+        {% else %}
+            <h3> Страница не найдена </h3>
+        {% endif %}
+    </body>
+</html>

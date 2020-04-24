@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="UTF-8">
+        <title>
+            {% block title %}
+                Hello
+            {% endblock %}
+        </title>
+        <script src="https://kit.fontawesome.com/ba974a8480.js" crossorigin="anonymous"></script>
+
+        <style>
+            body{
+                font-family: Arial;
+                background-image: url(https://verol.net/images/virtuemart/product/3DW00044.jpg);
+                background-size: 100%;
+                background-attachment: fixed;
+                width: 80%;
+                margin: 0 auto;
+            }
+            header{
+                display: flex;
+                justify-content: flex-end;
+            }
+            header a{
+                margin-right: 10px;
+            }
+            header a{
+                text-decoration: none;
+                color: #000000;
+            }
+            header hr{
+                visibility: hidden;
+            }
+            h3{
+                text-decoration: underline;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <a href="/"><p> База данных </p></a>
+
+            {% if request.session.name %}
+                {% if request.session.type == 'admin' %}
+                    <a href="/admin"><p> Панель </p></a>
+                {% endif %}
+                <hr>
+                <a href="#"><p> {{request.session.name}}</p></a>
+                <a href="/exit"><p><font color="red" </font> Выход </p></a>
+            {% else %}
+                <hr>
+                <a href="/login"><p><p><font color="green" </font> Войти </p></a>
+                <a href="/register"> <p><p><font color="blue" </font> Регистрация </p></a>
+            {% endif %}
+        </header>
+        <font color="black" </font>
+            
+        <form method="POST" action="">
+            {% csrf_token %}
+            <h1 align="center"> Добавление интеллектуальной собственности </h1>
+            <hr>
+            <h3> Общая информация </h3>
+            <p> Полное наименование: <input type="text" name="Name"/> </p>
+            <p> Дата создания: <input type="text" name="Date"/> </p>
+            <p> Краткое описание: <input type="text" name="Briefly"/> </p>
+            <p> Полное описание: <input type="text" name="Description"/> </p>
+            <h3> Автор </h3>
+            <p>  ФИО: <input type="text" name="FullName"/> </p>
+            <p> Дата рождения: <input type="text" name="Birthday"/> </p>
+            <p> Место работы: <input type="text" name="Post"/> </p>
+            <p> Дополнительная информация: <input type="text" name="Description"/> </p>
+            <input type="submit" value="Добавить"/>
+
+        </form>
+    </body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="UTF-8">
+        <title>
+            {% block title %}
+                Hello
+            {% endblock %}
+        </title>
+        <script src="https://kit.fontawesome.com/ba974a8480.js" crossorigin="anonymous"></script>
+
+        <style>
+            body{
+                font-family: Arial;
+                background-image: url(https://verol.net/images/virtuemart/product/3DW00044.jpg);
+                background-size: 100%;
+                background-attachment: fixed;
+                width: 80%;
+                margin: 0 auto;
+            }
+            header{
+                display: flex;
+                justify-content: flex-end;
+            }
+            header a{
+                margin-right: 10px;
+            }
+            header a{
+                text-decoration: none;
+                color: #000000;
+            }
+            header hr{
+                visibility: hidden;
+            }
+            h3{
+                text-decoration: underline;
+            }
+            .zatemnenie {
+                background: rgba(102, 102, 102, 0.5);
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                top: 0;
+                left: 0;
+                display: none;
+              }
+              .okno {
+                width: 300px;
+                height: 50px;
+                text-align: center;
+                padding: 15px;
+                border: 3px solid #0000cc;
+                border-radius: 10px;
+                color: #0000cc;
+                position: absolute;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                margin: auto;
+                background: #fff;
+              }
+             .zatemnenie:target {display: block;}
+              .close {
+                display: inline-block;
+                border: 1px solid #0000cc;
+                color: #0000cc;
+                padding: 0 12px;
+                margin: 10px;
+                text-decoration: none;
+                background: #f2f2f2;
+                font-size: 14pt;
+                cursor:pointer;
+              }
+              .close:hover {background: #e6e6ff;}
+          </style>
+    </head>
+    <body>
+        <header>
+
+            {% if request.session.name %}
+                {% if request.session.type == 'admin' %}
+                    <a href="/admin"><p> Панель управления </p></a>
+                {% endif %}
+                <hr>
+                <a href="#"><p> {{request.session.name}}</p></a>
+                <a href="/exit"><p><font color="red" </font> Выход </p></a>
+            {% else %}
+                <hr>
+                <a href="/login"><p><p><font color="green" </font> Войти </p></a>
+                <a href="/register"> <p><p><font color="blue" </font> Регистрация </p></a>
+            {% endif %}
+        </header>
+        <font color="black" </font>
+        <h1 align="center"> База данных организаций </h1>
+        <hr>
+        <div class="header">
+            {% for organization in organizations %}
+            <h3 align="center">  {{ organization.Name }} </h3>
+                <div style="display: flex;">
+                    <div>
+                        <p> <strong> <i class="fas fa-user-alt"></i> Директор </strong> </p>
+                        <p> <strong> <i class="fas fa-home"></i> Местоположение </strong> </p>
+                    </div>
+
+                    <div style="margin-left: 20px">
+                        <p> {{ organization.Head.SecondName }} {{ organization.Head.FirstName}} {{organization.Head.MiddleName}} </p>
+                        <p> г. {{organization.Location.City}}, ул. {{organization.Location.Street}} </p>
+                    </div>
+                </div>
+
+                <p> <strong> Об организации: </strong> </p>
+                {{organization.Description}}
+                <p> <strong> Интеллектуальные единицы: </strong> </p>
+                <br>
+                <div style="margin-left: 40px;">
+                    {% for property in organization.IntelectualProperties %}
+
+                        <details>
+
+                            <summary > {{property.Name}} </summary>
+                            <p>{{property.Briefly}}</p>
+                            <a href="article/{{property.ID}}"> <p>Подробнее</p> </a>
+                            {% if request.session.type == 'manager' or request.session.type == 'admin' %}
+                                <div class="zatemnenie" id="zatemnenieProp{{property.ID}}">
+                                  <div class="okno">
+                                    Вы уверены что хотите удалить статью {{property.Name}}? <br>
+                                    <a href='#' class="close">  Отмена  </a>
+                                    <a href='/deleteProperty/{{property.ID}}' class="close"> <font color="red" </font> Удалить! <font color="black" </font> </a>
+                                  </div>
+                                </div>
+                                <a href='#zatemnenieProp{{property.ID}}'><button><font color="red">Удалить статью </font> </button></a>
+                            {% endif %}
+
+                        </details>
+                        <br>
+                    {% endfor %}
+                    {% if request.session.type == 'manager' or request.session.type == 'admin' %}
+                        <div class="zatemnenie" id="zatemnenie{{organization.ID}}">
+                          <div class="okno">
+                            Вы уверены что хотите удалить организацию {{organization.Name}}? <br>
+                            <a href='#' class="close">  Отмена  </a>
+                            <a href='/deleteOrganization/{{organization.ID}}' class="close"> <font color="red" </font> Удалить! <font color="black" </font> </a>
+                          </div>
+                        </div>
+                        <a href='/addProperty/{{organization.ID}}'><button> Добавить статью </button></a>
+                        <a href="#zatemnenie{{organization.ID}}"><button><font color="red">Удалить организацию  </font> </button></a>
+                    {% endif %}
+                </div>
+                <hr>
+            {% endfor %}
+        </div>
+        {% if request.session.type == 'manager' or request.session.type == 'admin' %}
+            <a href='/addOrganization'><button> Добавить организацию </button></a>
+        {% endif %}
+        <br>
+        <br>
+
+    </body>
+</html>

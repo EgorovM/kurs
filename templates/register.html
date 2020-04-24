@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta charset="UTF-8">
+        <title>
+            {% block title %}
+                Hello
+            {% endblock %}
+        </title>
+        <script src="https://kit.fontawesome.com/ba974a8480.js" crossorigin="anonymous"></script>
+
+        <style>
+            body{
+                font-family: Arial;
+                background-image: url(https://verol.net/images/virtuemart/product/3DW00044.jpg);
+                background-size: 100%;
+                background-attachment: fixed;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h2 align="center"> Регистрация </h2>
+        <hr>
+        {{ error }}
+        {% if login == None and pass == None %}
+            <form method="POST" action="" align="center">
+                {% csrf_token %}
+                <input name="FullName" type="text" placeholder="Фамилия Имя Отчество" />
+                <br>
+                <input name="Post" type="text" placeholder="Место работы" />
+                <br>
+                <input name="login" type="text" placeholder="Логин"/>
+                <br>
+                <input name="password" type="password" placeholder="Пароль"/>
+                <br>
+                <input name="ok" type="submit" value="Регистрация">
+            </form>
+        {% endif %}
+    </body>
+</html>
